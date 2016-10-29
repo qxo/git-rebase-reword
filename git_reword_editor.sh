@@ -1,0 +1,3 @@
+#git config --global alias.reword '!f() { echo input=$1; if [ -z "$1" ] ; then echo "need arg1 !" ;exit 1 ;fi ; export REWORD_COMMIT=$(git rev-parse  --short $1 );echo REWORD_COMMIT=$REWORD_COMMIT;export REBASE_COMMIT=$(git rev-parse  --short ${REWORD_COMMIT}~1); echo REBASE_COMMIT=$REBASE_COMMIT;export GIT_SEQUENCE_EDITOR=git_reword_editor.sh;git rebase -i $REBASE_COMMIT; }; f'
+sed -i "s/^\(.*\) "$REWORD_COMMIT"/r "$REWORD_COMMIT"/" $1
+#exit 1

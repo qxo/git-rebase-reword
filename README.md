@@ -12,24 +12,36 @@ Download and symlink to your path
 ```bash
 $ git clone https://github.com/albfan/git-rebase-reword.git
 $ cd git-rebase-reword
-$ ln -s $PWD/git-rebase-reword ~/bin/
-$ ln -s $PWD/reword_editor ~/bin/
+```
+#### for windows: 
+* copy `git_reword_editor.bat` to  your %PATH%
+* make git reword alias : 
+
+```bash
+  git config --global alias.reword "!f() { echo $1;  if [ -z \"$1\" ] ; then echo 'need arg1 !' ;exit 1 ;fi ; export REWORD_COMMIT=$(git rev-parse  --short \"$1\");echo REWORD_COMMIT=$REWORD_COMMIT;export REBASE_COMMIT=$(git rev-parse  --short \"$REWORD_COMMIT~1\"); echo REBASE_COMMIT=$REBASE_COMMIT;export GIT_SEQUENCE_EDITOR='git_reword_editor.bat';git rebase -i $REBASE_COMMIT; }; f"
+```
+
+#### for linux  
+* copy or link `git_reword_editor.sh`  to your $PATH
+* make git reword alias : 
+```bash
+  git config --global alias.reword '!f() { echo input=$1; if [ -z "$1" ] ; then echo "need arg1 !" ;exit 1 ;fi ; export REWORD_COMMIT=$(git rev-parse  --short $1 );echo REWORD_COMMIT=$REWORD_COMMIT;export REBASE_COMMIT=$(git rev-parse  --short ${REWORD_COMMIT}~1); echo REBASE_COMMIT=$REBASE_COMMIT;export GIT_SEQUENCE_EDITOR=git_reword_editor.sh;git rebase -i $REBASE_COMMIT; }; f'
 ```
 
 ##Usage
 
 ```bash
 $ cd <repo>
-$ git rebase-reword <commit|symbolic-ref>
+$ git reword <commit|symbolic-ref>
 ```
 
 ## Examples
 
 ```bash
 # reword a commit
-$ git rebase-reword b68f560
+$ git reword b68f560
 # reword a reference
-$ git rebase-reword HEAD^
+$ git reword HEAD^
 # reword last commit
-$ git rebase-reword
+$ git reword
 ```
